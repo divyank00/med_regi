@@ -336,8 +336,10 @@ class _SignUp extends State<SignUp> {
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     validator: (String value) {
-                      if (value.isNotEmpty)
-                        if (value.length != 10) return 'Invalid Phone Number!';
+                      if (value.isNotEmpty) {
+                        if (value.length < 10) return 'Invalid Phone Number!';
+                        if (value.length > 11) return 'Invalid Phone Number!';
+                      }
                       return null;
                     },
                     focusNode: _contact2Focus,
@@ -461,7 +463,6 @@ class _SignUp extends State<SignUp> {
                           }
                           else {
                             passController.clear();
-                            repassController.clear();
                             flag = false;
                           }
                         });
@@ -523,6 +524,7 @@ class _SignUp extends State<SignUp> {
       data.putIfAbsent('location', () => addressController.text);
       data.putIfAbsent('longi', () => position.longitude.toString());
       data.putIfAbsent('lati', () => position.latitude.toString());
+      data.putIfAbsent('city', ()=>location.locality);
 
       User_UID
           .document(_firebaseUser.uid)
